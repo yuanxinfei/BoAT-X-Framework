@@ -38,7 +38,7 @@ api_hlfabric.h is header file for fabric transaction construction and performing
 #define BOAT_HLFABRIC_ENDORSER_MAX_NUM           10  //!< Support endorser max number
 #define BOAT_HLFABRIC_ORDERER_MAX_NUM            4   //!< Support orderer max number
 
-#define BOAT_HLFABRIC_TLS_SUPPORT                1 //!< If need client support TLS, set it to 1.
+#define BOAT_HLFABRIC_TLS_SUPPORT                0 //!< If need client support TLS, set it to 1.
 #define BOAT_HLFABRIC_TLS_IDENTIFY_CLIENT        0 //!< If server need identify client, set it to 1.
 
                                                    //!< This macro valid only BOAT_HLFABRIC_TLS_SUPPORT has

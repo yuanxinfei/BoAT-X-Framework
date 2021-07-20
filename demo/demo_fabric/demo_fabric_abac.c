@@ -21,80 +21,89 @@
 #include "boatconfig.h"
 #include "boatiotsdk.h"
 
-const BCHAR * fabric_client_demokey  = "-----BEGIN PRIVATE KEY-----\n"
-			 						   "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgZv0mwHQMEGry976y\n"
-									   "yJK38MQq+s98MpPmkKCAxAYLm8+hRANCAAT8KxmQX+3tjzRp1KBJmT02inKXNLyE\n"
-									   "8zyXeva18ib+GgF0Iu9VwydQQ9OPUJcHDDXFUARk/neouR+EhJwXzl98\n"
-									   "-----END PRIVATE KEY-----\n";
+// const BCHAR * fabric_client_demokey  = "-----BEGIN PRIVATE KEY-----\n"
+// 			 						   "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgZv0mwHQMEGry976y\n"
+// 									   "yJK38MQq+s98MpPmkKCAxAYLm8+hRANCAAT8KxmQX+3tjzRp1KBJmT02inKXNLyE\n"
+// 									   "8zyXeva18ib+GgF0Iu9VwydQQ9OPUJcHDDXFUARk/neouR+EhJwXzl98\n"
+// 									   "-----END PRIVATE KEY-----\n";
 
+// crypto-config\peerOrganizations\org1.example.com\users\User1@org1.example.com\msp\keystore
+const BCHAR *fabric_client_demokey = 	"-----BEGIN PRIVATE KEY-----\n"
+										"MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgRXwC/eQa+OBeKL5v\n"
+										"uVKC/0S9FvTCwu/hEBvev+p6vByhRANCAAQ3vxr92n486LOD5SA3eqoZtDU+6zL2\n"
+										"rNrzxDm3XHbEfyMpmXM/1xsGyn6CbICIkXcp7MwMCknOXlUTAUqNw9jR\n"
+										"-----END PRIVATE KEY-----\n"
+										"\n";
+//crypto-config\peerOrganizations\org1.example.com\users\User1@org1.example.com\msp\signcerts
 const BCHAR * fabric_client_democert =  "-----BEGIN CERTIFICATE-----\n"
-										"MIICKTCCAdCgAwIBAgIQbidboH9ELvx/J9mItlQF7DAKBggqhkjOPQQDAjBzMQsw\n"
+										"MIICKjCCAdCgAwIBAgIQe4aLzXY6K/mNOqIonVWiOjAKBggqhkjOPQQDAjBzMQsw\n"
 										"CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\n"
 										"YW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eu\n"
-										"b3JnMS5leGFtcGxlLmNvbTAeFw0yMDA4MDUwMjQ2MDBaFw0zMDA4MDMwMjQ2MDBa\n"
+										"b3JnMS5leGFtcGxlLmNvbTAeFw0yMTA2MDIwMTQ2MDBaFw0zMTA1MzEwMTQ2MDBa\n"
 										"MGwxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1T\n"
-										"YW4gRnJhbmNpc2NvMQ8wDQYDVQQLEwZjbGllbnQxHzAdBgNVBAMMFkFkbWluQG9y\n"
-										"ZzEuZXhhbXBsZS5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAT8KxmQX+3t\n"
-										"jzRp1KBJmT02inKXNLyE8zyXeva18ib+GgF0Iu9VwydQQ9OPUJcHDDXFUARk/neo\n"
-										"uR+EhJwXzl98o00wSzAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0TAQH/BAIwADArBgNV\n"
-										"HSMEJDAigCAB71fDwWrZRYkhqsRX9seAeHd0/stBjokMM3WCDI9d4DAKBggqhkjO\n"
-										"PQQDAgNHADBEAiBGh6koZBjIYhFVDeopES8kIhhpB8u842wE/X3L0bS8zgIgStgp\n"
-										"kdXoRNjOlCG+XF7cxGCo77e1fRebDPuniOT/ZSg=\n"
+										"YW4gRnJhbmNpc2NvMQ8wDQYDVQQLEwZjbGllbnQxHzAdBgNVBAMMFlVzZXIxQG9y\n"
+										"ZzEuZXhhbXBsZS5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQ3vxr92n48\n"
+										"6LOD5SA3eqoZtDU+6zL2rNrzxDm3XHbEfyMpmXM/1xsGyn6CbICIkXcp7MwMCknO\n"
+										"XlUTAUqNw9jRo00wSzAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0TAQH/BAIwADArBgNV\n"
+										"HSMEJDAigCBG0APEm2XnhkKrhtp5j+n39naV2w7rMgfPRr3KdkdbQjAKBggqhkjO\n"
+										"PQQDAgNIADBFAiEAtL1CHAyYAxbM0VzqRNur0ax3zC/Lovg3xttUsScejlUCIFUP\n"
+										"0uFbWIIaahaThZ4hvjIdO/jN7t8iI55xreOj1DMy\n"
 										"-----END CERTIFICATE-----\n";
 
+//crypto-config\peerOrganizations\org1.example.com\peers\peer0.org1.example.com\msp\cacerts
 const BCHAR * fabric_ca1_democert    =  "-----BEGIN CERTIFICATE-----\n"
-										"MIICRDCCAeqgAwIBAgIRAOATr0Krm9Rv+57iYJTuLEMwCgYIKoZIzj0EAwIwbDEL\n"
+										"MIICUjCCAfigAwIBAgIRAMK02x10K2inOT0rPU0iPk4wCgYIKoZIzj0EAwIwczEL\n"
 										"MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\n"
-										"cmFuY2lzY28xFDASBgNVBAoTC2V4YW1wbGUuY29tMRowGAYDVQQDExF0bHNjYS5l\n"
-										"eGFtcGxlLmNvbTAeFw0yMDA4MDUwMjQ2MDBaFw0zMDA4MDMwMjQ2MDBaMGwxCzAJ\n"
-										"BgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1TYW4gRnJh\n"
-										"bmNpc2NvMRQwEgYDVQQKEwtleGFtcGxlLmNvbTEaMBgGA1UEAxMRdGxzY2EuZXhh\n"
-										"bXBsZS5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAATrW0uxJWeqTpT7/yG6\n"
-										"IkB42AjmvOz9ZEIkYOdGrG7fCwi2KLvqW+2RSJkQXJTqtNVPTRrUSdqOBIAg3u5G\n"
-										"6/V8o20wazAOBgNVHQ8BAf8EBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsG\n"
-										"AQUFBwMBMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEICRC9l3Em13MwZMSklSX\n"
-										"Er+MYZhQmWljFLtRHt6kw5XLMAoGCCqGSM49BAMCA0gAMEUCIQDt30JMkvsHuNoj\n"
-										"mdO6Jfu+Y6aNwKfGqtKNHjjjDqYZ4gIgR2aw/fgADnrneridJIMfa8o1dtrNDY8+\n"
-										"D4GPkR5WdCg=\n"
+										"cmFuY2lzY28xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh\n"
+										"Lm9yZzEuZXhhbXBsZS5jb20wHhcNMjEwNjAyMDE0NjAwWhcNMzEwNTMxMDE0NjAw\n"
+										"WjBzMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMN\n"
+										"U2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UE\n"
+										"AxMTY2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IA\n"
+										"BGr7NR1CAK6VbFp42UN4z+jPbyLhhTGVhlKuV4wrGcWsk4ciivPcy8SD0nJbl2Xv\n"
+										"amuNNYXdWZKKxbXUt6UY9gijbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAU\n"
+										"BggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQg\n"
+										"RtADxJtl54ZCq4baeY/p9/Z2ldsO6zIHz0a9ynZHW0IwCgYIKoZIzj0EAwIDSAAw\n"
+										"RQIhANXVF2ecIvDqGa7QHKReAgnhDI8wyTWxap/RVeJ/HW0JAiAZy64jeX2frsOK\n"
+										"P4o22DenRX0U2rN3nu05lYMhQZMqtA==\n"
 										"-----END CERTIFICATE-----\n";
-
+//crypto-config\peerOrganizations\org2.example.com\peers\peer0.org2.example.com\msp\cacerts
 const BCHAR * fabric_ca2_democert    =  "-----BEGIN CERTIFICATE-----\n"
-										"MIICVzCCAf2gAwIBAgIQW0b9mh4yNgH+axd+V7Om8jAKBggqhkjOPQQDAjB2MQsw\n"
-										"CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\n"
-										"YW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEfMB0GA1UEAxMWdGxz\n"
-										"Y2Eub3JnMS5leGFtcGxlLmNvbTAeFw0yMDA4MDUwMjQ2MDBaFw0zMDA4MDMwMjQ2\n"
-										"MDBaMHYxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQH\n"
-										"Ew1TYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmcxLmV4YW1wbGUuY29tMR8wHQYD\n"
-										"VQQDExZ0bHNjYS5vcmcxLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0D\n"
-										"AQcDQgAEkyNak1/sm+w4KvMZ0hDXdcWHyr5Lxyo/MjxfsdYyXApqR6/y8Q1UZfOe\n"
-										"p1melqcBsD8XqbP3kuOO5GDjhFB2a6NtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1Ud\n"
-										"JQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1Ud\n"
-										"DgQiBCDI/TuNQoTL09NgoUn4pQUiL+APeDIDOCF9/alO1glcNjAKBggqhkjOPQQD\n"
-										"AgNIADBFAiEAj4506XYUf0agFjgPN2ZthNQRmZP0RZDDBTWLAQO7MIMCIBr7NnOM\n"
-										"SmNAylm4AGsA4IwAEouddvWs6RNOQDudp4PT\n"
+										"MIICUjCCAfigAwIBAgIRANaRg8qTA6mwtLvq/tWZizEwCgYIKoZIzj0EAwIwczEL\n"
+										"MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\n"
+										"cmFuY2lzY28xGTAXBgNVBAoTEG9yZzIuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh\n"
+										"Lm9yZzIuZXhhbXBsZS5jb20wHhcNMjEwNjAyMDE0NjAwWhcNMzEwNTMxMDE0NjAw\n"
+										"WjBzMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMN\n"
+										"U2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEcMBoGA1UE\n"
+										"AxMTY2Eub3JnMi5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IA\n"
+										"BOQSs6qq6+G9ICrLbZYJPGPDlGiqbXu9YRhqHHtCYyhpmUjm1Ptk5N3CxSMIPj19\n"
+										"6b+UDrp8fkoJl9ZONb10IGOjbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNVHSUEFjAU\n"
+										"BggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQg\n"
+										"T2CxwctZ0AhRo3NQeXX6ry+14tnBJYwaVzsiufa1fJ0wCgYIKoZIzj0EAwIDSAAw\n"
+										"RQIhANw0vv2KaTLIm5kos7qftzvz+O2o4Z4N6pgx2bX5BaDoAiAegqxREsi5sy8o\n"
+										"xiLcaGYPlCF6/0XrDx9ZwmGUfYQ5nw==\n"
 										"-----END CERTIFICATE-----\n";
-
+//crypto-config\ordererOrganizations\example.com\orderers\orderer.example.com\msp\cacerts
 const BCHAR * fabric_ca3_democert    =  "-----BEGIN CERTIFICATE-----\n"
-										"MIICVjCCAf2gAwIBAgIQafAbhNWN6YxNmaCfuDE2RjAKBggqhkjOPQQDAjB2MQsw\n"
-										"CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\n"
-										"YW5jaXNjbzEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEfMB0GA1UEAxMWdGxz\n"
-										"Y2Eub3JnMi5leGFtcGxlLmNvbTAeFw0yMDA4MDUwMjQ2MDBaFw0zMDA4MDMwMjQ2\n"
-										"MDBaMHYxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQH\n"
-										"Ew1TYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmcyLmV4YW1wbGUuY29tMR8wHQYD\n"
-										"VQQDExZ0bHNjYS5vcmcyLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0D\n"
-										"AQcDQgAE1tqwF+tFY+1vG00p24nrrSbH2Jx1+geJKBWfnVt15ce8nSdnjyXeh8nq\n"
-										"n+zfJCGYXarAATq0INDql0D3+GfhdaNtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1Ud\n"
-										"JQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1Ud\n"
-										"DgQiBCA74Y5aGIZdMDDA1q44ECa+2PwFAOwOhlUf4ts7ZwvIYzAKBggqhkjOPQQD\n"
-										"AgNHADBEAiBa77f+WNSv/UNmBf99yLXMb3kA8TyJl/4oHNuChc5U+QIgfJ69NgEg\n"
-										"b+hmfwiSjKQxlc4DDDfoFLdDAi4WtBO/QLM=\n"
+										"MIICPjCCAeSgAwIBAgIRANWz0LWPRf8zPXMl/K2HIsEwCgYIKoZIzj0EAwIwaTEL\n"
+										"MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\n"
+										"cmFuY2lzY28xFDASBgNVBAoTC2V4YW1wbGUuY29tMRcwFQYDVQQDEw5jYS5leGFt\n"
+										"cGxlLmNvbTAeFw0yMTA2MDIwMTQ2MDBaFw0zMTA1MzEwMTQ2MDBaMGkxCzAJBgNV\n"
+										"BAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1TYW4gRnJhbmNp\n"
+										"c2NvMRQwEgYDVQQKEwtleGFtcGxlLmNvbTEXMBUGA1UEAxMOY2EuZXhhbXBsZS5j\n"
+										"b20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASBUHr/87wNzx77vbs6UKoh29kG\n"
+										"QR4CH3eFmuBUgHDsDO8mt2T35AYUQRQGh00himD6v6VEABdstWEUV3ne+TjNo20w\n"
+										"azAOBgNVHQ8BAf8EBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMB\n"
+										"MA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIF8tm9BNAWLIUtV4uXsk/QBOEcWc\n"
+										"SzSe1q88PwRRsWiRMAoGCCqGSM49BAMCA0gAMEUCIQCBjtuqZteYc3SWw21l2vXs\n"
+										"42Qnv3mu6VFXGRsj9Os2bQIgFaq/f0XTGBYL63h2x2NDHQlqBJ6OS7XgvkF7PT5B\n"
+										"gVM=\n"
 										"-----END CERTIFICATE-----\n";
 
-const BCHAR * fabric_demo_endorser1_url      = "172.18.0.5:7051";
+const BCHAR * fabric_demo_endorser1_url      = "139.224.234.74:7051";
 const BCHAR * fabric_demo_endorser1_hostName = "peer0.org1.example.com";
-const BCHAR * fabric_demo_endorser2_url      = "172.18.0.4:7051";
+const BCHAR * fabric_demo_endorser2_url      = "139.224.234.74:9051";
 const BCHAR * fabric_demo_endorser2_hostName = "peer0.org2.example.com";
-const BCHAR * fabric_demo_order1_url         = "172.18.0.3:7050";
+const BCHAR * fabric_demo_order1_url         = "139.224.234.74:7050";
 const BCHAR * fabric_demo_order1_hostName    = "orderer.example.com";
 
 BoatHlfabricWallet *g_fabric_wallet_ptr;
