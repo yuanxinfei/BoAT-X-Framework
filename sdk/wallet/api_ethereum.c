@@ -26,7 +26,7 @@ api_ethereum.c defines the Ethereum wallet API for BoAT IoT SDK.
 #include "rpcintf.h"
 #include "cJSON.h"
 
-BoatEthWallet * BoatEthWalletInit(const BoatEthWalletConfig *config_ptr, BUINT32 config_size)
+BoatEthWallet *BoatEthWalletInit(const BoatEthWalletConfig *config_ptr, BUINT32 config_size)
 {
     BoatEthWallet *wallet_ptr;
     BOAT_RESULT result;
@@ -193,7 +193,7 @@ BOAT_RESULT BoatEthWalletSetChainId(BoatEthWallet *wallet_ptr, BUINT32 chain_id)
 }
 
 
-BCHAR * BoatEthWalletGetBalance(BoatEthWallet *wallet_ptr, BCHAR *alt_address_str)
+BCHAR *BoatEthWalletGetBalance(BoatEthWallet *wallet_ptr, BCHAR *alt_address_str)
 {
     BUINT8 alt_address[BOAT_ETH_ADDRESS_SIZE]; // Binary altered address converted from alt_address_str
     BUINT8 *address_ptr;     // Point to an address in binary format, either wallet
@@ -226,14 +226,15 @@ BCHAR * BoatEthWalletGetBalance(BoatEthWallet *wallet_ptr, BCHAR *alt_address_st
     }
     
     // Get balance from network
-    // Return value of web3_eth_getBalance() is balance in wei
+    // Return value of web3_getBalance() is balance in wei
     UtilityBinToHex( address_str, address_ptr, BOAT_ETH_ADDRESS_SIZE,
 					BIN2HEX_LEFTTRIM_UNFMTDATA, BIN2HEX_PREFIX_0x_YES, BOAT_FALSE );
-    param_eth_getBalance.address_str   = address_str;
-    param_eth_getBalance.block_num_str = "latest";
-    tx_balance_str = web3_eth_getBalance( wallet_ptr->web3intf_context_ptr,
-										  wallet_ptr->network_info.node_url_ptr,
-										  &param_eth_getBalance );
+    param_eth_getBalance.method_name_str = "eth_getBalance";               
+    param_eth_getBalance.address_str     = address_str;
+    param_eth_getBalance.block_num_str   = "latest";
+    tx_balance_str = web3_getBalance(wallet_ptr->web3intf_context_ptr,
+									 wallet_ptr->network_info.node_url_ptr,
+									 &param_eth_getBalance);
 
     if( tx_balance_str == NULL )
     {
@@ -245,8 +246,8 @@ BCHAR * BoatEthWalletGetBalance(BoatEthWallet *wallet_ptr, BCHAR *alt_address_st
 }
 
 
-BOAT_RESULT BoatEthPraseRpcResponseResult( const BCHAR * json_string, 
-										   const BCHAR * child_name, 
+BOAT_RESULT BoatEthPraseRpcResponseResult( const BCHAR *json_string, 
+										   const BCHAR *child_name, 
 										   BoatFieldVariable *result_out )
 {
 	return web3_parse_json_result(json_string, child_name, result_out);
@@ -256,8 +257,8 @@ BOAT_RESULT BoatEthPraseRpcResponseResult( const BCHAR * json_string,
 BOAT_RESULT BoatEthTxInit(BoatEthWallet *wallet_ptr,
                           BoatEthTx *tx_ptr,
                           BBOOL is_sync_tx,
-                          BCHAR * gasprice_str,
-                          BCHAR * gaslimit_str,
+                          BCHAR *gasprice_str,
+                          BCHAR *gaslimit_str,
                           BCHAR *recipient_str)
 {
     BOAT_RESULT result;
@@ -356,17 +357,18 @@ BOAT_RESULT BoatEthTxSetNonce(BoatEthTx *tx_ptr, BUINT64 nonce)
 	if( nonce == BOAT_ETH_NONCE_AUTO )
 	{
 		/* Get transaction count from network
-		   Return value of web3_eth_getTransactionCount() is transaction count */
+		   Return value of web3_getTransactionCount() is transaction count */
 		UtilityBinToHex( account_address_str, tx_ptr->wallet_ptr->account_info.address,
 						BOAT_ETH_ADDRESS_SIZE, BIN2HEX_LEFTTRIM_UNFMTDATA, 
 						BIN2HEX_PREFIX_0x_YES, BOAT_FALSE ); 
-		param_eth_getTransactionCount.address_str   = account_address_str;
-		param_eth_getTransactionCount.block_num_str = "latest";
-		tx_count_str = web3_eth_getTransactionCount(tx_ptr->wallet_ptr->web3intf_context_ptr,
-													tx_ptr->wallet_ptr->network_info.node_url_ptr,
-													&param_eth_getTransactionCount);
-		result = BoatEthPraseRpcResponseResult( tx_count_str, "", 
-												&tx_ptr->wallet_ptr->web3intf_context_ptr->web3_result_string_buf);
+        param_eth_getTransactionCount.method_name_str = "eth_getTransactionCount";
+		param_eth_getTransactionCount.address_str      = account_address_str;
+		param_eth_getTransactionCount.block_num_str    = "latest";
+		tx_count_str = web3_getTransactionCount(tx_ptr->wallet_ptr->web3intf_context_ptr,
+												tx_ptr->wallet_ptr->network_info.node_url_ptr,
+												&param_eth_getTransactionCount);
+		result = BoatEthPraseRpcResponseResult(tx_count_str, "", 
+											   &tx_ptr->wallet_ptr->web3intf_context_ptr->web3_result_string_buf);
         if( result != BOAT_SUCCESS )
         { 
             BoatLog(BOAT_LOG_CRITICAL, "Fail to get transaction count from network.");
@@ -409,9 +411,10 @@ BOAT_RESULT BoatEthTxSetGasPrice(BoatEthTx *tx_ptr, BoatFieldMax32B *gas_price_p
     else
     {
         // Get current gas price from network
-        // Return value of web3_eth_gasPrice is in wei
-        gas_price_from_net_str = web3_eth_gasPrice( tx_ptr->wallet_ptr->web3intf_context_ptr, 
-												    tx_ptr->wallet_ptr->network_info.node_url_ptr );
+        // Return value of web3_gasPrice is in wei
+        gas_price_from_net_str = web3_gasPrice(tx_ptr->wallet_ptr->web3intf_context_ptr, 
+											   tx_ptr->wallet_ptr->network_info.node_url_ptr,
+                                               "eth_gasPrice");
 		if( gas_price_from_net_str == NULL)
         {
             return BOAT_ERROR_RPC_FAILED;
@@ -556,7 +559,7 @@ BOAT_RESULT BoatEthTxSend(BoatEthTx *tx_ptr)
 }
 
 
-BCHAR * BoatEthCallContractFunc( BoatEthTx *tx_ptr, BCHAR *func_proto_str,
+BCHAR *BoatEthCallContractFunc( BoatEthTx *tx_ptr, BCHAR *func_proto_str,
 								 BUINT8 *func_param_ptr, BUINT32 func_param_len )
 {
     BUINT8 function_selector[32];
@@ -615,17 +618,18 @@ BCHAR * BoatEthCallContractFunc( BoatEthTx *tx_ptr, BCHAR *func_proto_str,
 	// e.g. "0x12345678" is a function selector prefixed
     UtilityBinToHex( data_str+10,  func_param_ptr,  func_param_len,
 					BIN2HEX_LEFTTRIM_UNFMTDATA,  BIN2HEX_PREFIX_0x_NO, BOAT_FALSE);
-    param_eth_call.data          = data_str;
-    param_eth_call.block_num_str = "latest";
-    retval_str = web3_eth_call( tx_ptr->wallet_ptr->web3intf_context_ptr,
-                                tx_ptr->wallet_ptr->network_info.node_url_ptr,
-                                &param_eth_call);
+    param_eth_call.method_name_str = "eth_call";
+    param_eth_call.data            = data_str;
+    param_eth_call.block_num_str   = "latest";
+    retval_str = web3_call(tx_ptr->wallet_ptr->web3intf_context_ptr,
+                           tx_ptr->wallet_ptr->network_info.node_url_ptr,
+                           &param_eth_call);
 
     return retval_str;
 }
 
 
-BOAT_RESULT BoatEthTransfer(BoatEthTx *tx_ptr, BCHAR * value_hex_str)
+BOAT_RESULT BoatEthTransfer(BoatEthTx *tx_ptr, BCHAR *value_hex_str)
 {
     BoatFieldMax32B value;
     BOAT_RESULT result;
@@ -688,13 +692,14 @@ BOAT_RESULT BoatEthGetTransactionReceipt(BoatEthTx *tx_ptr)
     UtilityBinToHex( tx_hash_str, tx_ptr->tx_hash.field, tx_ptr->tx_hash.field_len,
 					BIN2HEX_LEFTTRIM_UNFMTDATA, BIN2HEX_PREFIX_0x_YES, BOAT_FALSE );
     tx_mined_timeout = BOAT_ETH_WAIT_PENDING_TX_TIMEOUT;
+    param_eth_getTransactionReceipt.method_name_str = "eth_getTransactionReceipt";
     param_eth_getTransactionReceipt.tx_hash_str = tx_hash_str;
 
     do{
         BoatSleep(BOAT_ETH_MINE_INTERVAL); // Sleep waiting for the block being mined 
-        tx_status_str = web3_eth_getTransactionReceiptStatus(tx_ptr->wallet_ptr->web3intf_context_ptr,
-															 tx_ptr->wallet_ptr->network_info.node_url_ptr,
-															 &param_eth_getTransactionReceipt);
+        tx_status_str = web3_getTransactionReceiptStatus(tx_ptr->wallet_ptr->web3intf_context_ptr,
+														 tx_ptr->wallet_ptr->network_info.node_url_ptr,
+														 &param_eth_getTransactionReceipt);
 		result = BoatEthPraseRpcResponseResult( tx_status_str, "status", 
 												&tx_ptr->wallet_ptr->web3intf_context_ptr->web3_result_string_buf);
         if( result != BOAT_SUCCESS )

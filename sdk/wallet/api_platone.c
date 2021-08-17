@@ -36,9 +36,9 @@ boatPlatonewallet.c defines the Platone wallet API for BoAT IoT SDK.
 BOAT_RESULT BoatPlatoneTxInit( BoatPlatoneWallet *wallet_ptr,
 							   BoatPlatoneTx *tx_ptr,
 							   BBOOL is_sync_tx,
-							   BCHAR * gasprice_str,
-							   BCHAR * gaslimit_str,
-							   BCHAR * recipient_str,
+							   BCHAR *gasprice_str,
+							   BCHAR *gaslimit_str,
+							   BCHAR *recipient_str,
 							   BoatPlatoneTxtype txtype)
 {
     BOAT_RESULT result;
@@ -88,7 +88,7 @@ BOAT_RESULT BoatPlatoneTxSetTxtype(BoatPlatoneTx *tx_ptr, BoatPlatoneTxtype txty
 }
 
 
-BCHAR * BoatPlatoneCallContractFunc( BoatPlatoneTx *tx_ptr, BUINT8 *rlp_param_ptr,
+BCHAR *BoatPlatoneCallContractFunc( BoatPlatoneTx *tx_ptr, BUINT8 *rlp_param_ptr,
 									 BUINT32 rlp_param_len )
 {
     // *2 for bin to HEX, + 3 for "0x" prefix and NULL terminator
@@ -126,13 +126,14 @@ BCHAR * BoatPlatoneCallContractFunc( BoatPlatoneTx *tx_ptr, BUINT8 *rlp_param_pt
     param_eth_call.gasPrice = "0x8250de00";
 
     // Set function parameters
-    UtilityBinToHex( data_str, rlp_param_ptr, rlp_param_len,
-					BIN2HEX_LEFTTRIM_UNFMTDATA, BIN2HEX_PREFIX_0x_YES, BOAT_FALSE );
+    UtilityBinToHex(data_str, rlp_param_ptr, rlp_param_len,
+					BIN2HEX_LEFTTRIM_UNFMTDATA, BIN2HEX_PREFIX_0x_YES, BOAT_FALSE);
+    param_eth_call.method_name_str = "eth_call";
     param_eth_call.data = data_str;
     param_eth_call.block_num_str = "latest";
-    retval_str = web3_eth_call( tx_ptr->wallet_ptr->web3intf_context_ptr,
-                                tx_ptr->wallet_ptr->network_info.node_url_ptr,
-                                &param_eth_call);
+    retval_str = web3_call(tx_ptr->wallet_ptr->web3intf_context_ptr,
+                           tx_ptr->wallet_ptr->network_info.node_url_ptr,
+                           &param_eth_call);
 
     return retval_str;
 
@@ -163,7 +164,7 @@ BOAT_RESULT BoatPlatoneTxSend(BoatPlatoneTx *tx_ptr)
 }
 
 
-BOAT_RESULT BoatPlatoneTransfer(BoatPlatoneTx *tx_ptr, BCHAR * value_hex_str)
+BOAT_RESULT BoatPlatoneTransfer(BoatPlatoneTx *tx_ptr, BCHAR *value_hex_str)
 {
     BoatFieldMax32B   value;
     BoatFieldVariable data;
